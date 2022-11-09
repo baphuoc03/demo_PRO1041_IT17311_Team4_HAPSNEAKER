@@ -38,6 +38,8 @@ public class Main extends javax.swing.JFrame {
         lblNhanVien = new javax.swing.JLabel();
         lblBanHang = new javax.swing.JLabel();
         lblKH = new javax.swing.JLabel();
+        lblSanPham = new javax.swing.JLabel();
+        lblKhuyenMai = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         PnlMain = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -114,6 +116,32 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        lblSanPham.setBackground(new java.awt.Color(255, 255, 255));
+        lblSanPham.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        lblSanPham.setForeground(new java.awt.Color(2, 120, 217));
+        lblSanPham.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSanPham.setText("Sản Phẩm");
+        lblSanPham.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(2, 120, 217)));
+        lblSanPham.setOpaque(true);
+        lblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSanPhamMouseClicked(evt);
+            }
+        });
+
+        lblKhuyenMai.setBackground(new java.awt.Color(255, 255, 255));
+        lblKhuyenMai.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        lblKhuyenMai.setForeground(new java.awt.Color(2, 120, 217));
+        lblKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKhuyenMai.setText("Khuyến Mãi");
+        lblKhuyenMai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(2, 120, 217)));
+        lblKhuyenMai.setOpaque(true);
+        lblKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblKhuyenMaiMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -121,6 +149,8 @@ public class Main extends javax.swing.JFrame {
             .addComponent(lblNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblBanHang, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
             .addComponent(lblKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblKhuyenMai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +160,11 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(lblNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(lblKH, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(459, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(lblSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(lblKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(327, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblBanHang, lblNhanVien});
@@ -226,6 +260,26 @@ public class Main extends javax.swing.JFrame {
         lblKH.setHorizontalAlignment(JLabel.RIGHT);
     }//GEN-LAST:event_lblKHMouseClicked
 
+    private void lblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseClicked
+        // TODO add your handling code here:
+        childPanel = new QLSanPham();
+        PnlMain.removeAll();
+        PnlMain.add(childPanel);
+        PnlMain.validate();
+        SetAlignCenter();
+        lblSanPham.setHorizontalAlignment(JLabel.RIGHT);
+    }//GEN-LAST:event_lblSanPhamMouseClicked
+
+    private void lblKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhuyenMaiMouseClicked
+        // TODO add your handling code here:
+        childPanel = new QLKhuyenMai();
+        PnlMain.removeAll();
+        PnlMain.add(childPanel);
+        PnlMain.validate();
+        SetAlignCenter();
+        lblKhuyenMai.setHorizontalAlignment(JLabel.RIGHT);
+    }//GEN-LAST:event_lblKhuyenMaiMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -272,11 +326,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblBanHang;
     private javax.swing.JLabel lblKH;
+    private javax.swing.JLabel lblKhuyenMai;
     private javax.swing.JLabel lblNhanVien;
+    private javax.swing.JLabel lblSanPham;
     // End of variables declaration//GEN-END:variables
     public void SetAlignCenter(){
         lblBanHang.setHorizontalAlignment(JLabel.CENTER);
         lblKH.setHorizontalAlignment(JLabel.CENTER);
         lblNhanVien.setHorizontalAlignment(JLabel.CENTER);
+        lblSanPham.setHorizontalAlignment(JLabel.CENTER);
+        lblKhuyenMai.setHorizontalAlignment(JLabel.CENTER);
     }
 }
