@@ -3,6 +3,10 @@ package View;
 import java.awt.Panel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -20,6 +24,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        testbarchar();
     }
 
     /**
@@ -40,6 +45,7 @@ public class Main extends javax.swing.JFrame {
         lblKH = new javax.swing.JLabel();
         lblSanPham = new javax.swing.JLabel();
         lblKhuyenMai = new javax.swing.JLabel();
+        lblThongKe = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         PnlMain = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -142,6 +148,19 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        lblThongKe.setBackground(new java.awt.Color(255, 255, 255));
+        lblThongKe.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
+        lblThongKe.setForeground(new java.awt.Color(2, 120, 217));
+        lblThongKe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblThongKe.setText("Thống Kê");
+        lblThongKe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(2, 120, 217)));
+        lblThongKe.setOpaque(true);
+        lblThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblThongKeMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -151,6 +170,7 @@ public class Main extends javax.swing.JFrame {
             .addComponent(lblKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblKhuyenMai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +184,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(lblSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(lblKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(lblThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(275, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblBanHang, lblNhanVien});
@@ -280,6 +302,16 @@ public class Main extends javax.swing.JFrame {
         lblKhuyenMai.setHorizontalAlignment(JLabel.RIGHT);
     }//GEN-LAST:event_lblKhuyenMaiMouseClicked
 
+    private void lblThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblThongKeMouseClicked
+        // TODO add your handling code here:
+        childPanel = new TK();
+        PnlMain.removeAll();
+        PnlMain.add(childPanel);
+        PnlMain.validate();
+        SetAlignCenter();
+        lblThongKe.setHorizontalAlignment(JLabel.RIGHT);
+    }//GEN-LAST:event_lblThongKeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -329,6 +361,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblKhuyenMai;
     private javax.swing.JLabel lblNhanVien;
     private javax.swing.JLabel lblSanPham;
+    private javax.swing.JLabel lblThongKe;
     // End of variables declaration//GEN-END:variables
     public void SetAlignCenter(){
         lblBanHang.setHorizontalAlignment(JLabel.CENTER);
@@ -336,5 +369,17 @@ public class Main extends javax.swing.JFrame {
         lblNhanVien.setHorizontalAlignment(JLabel.CENTER);
         lblSanPham.setHorizontalAlignment(JLabel.CENTER);
         lblKhuyenMai.setHorizontalAlignment(JLabel.CENTER);
+        lblThongKe.setHorizontalAlignment(JLabel.CENTER);
+    }
+    public void testbarchar(){
+        DefaultCategoryDataset dbSet  = new DefaultCategoryDataset();
+        dbSet.addValue(1000000, "Doanh Thu", "1");
+        dbSet.addValue(2000000, "Doanh Thu", "2");
+        dbSet.addValue(2300000, "Doanh Thu", "3");
+        dbSet.addValue(1700000, "Doanh Thu", "4");
+        JFreeChart Barchar = ChartFactory.createBarChart("Doanh thu theo nam", "Thang","Doanh Thu", dbSet);
+        ChartPanel chartPanel = new ChartPanel(Barchar);
+        PnlMain.removeAll();
+        PnlMain.add(chartPanel);
     }
 }

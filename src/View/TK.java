@@ -4,6 +4,14 @@
  */
 package View;
 
+import java.awt.Color;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 /**
  *
  * @author admin
@@ -15,6 +23,7 @@ public class TK extends javax.swing.JPanel {
      */
     public TK() {
         initComponents();
+        testbarchar();
     }
 
     /**
@@ -41,9 +50,11 @@ public class TK extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        tabDoanhThu = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        pnlBieuDo = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
@@ -188,6 +199,17 @@ public class TK extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Chi Tiết Doanh Thu");
+
+        tabDoanhThu.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        tabDoanhThu.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tabDoanhThu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabDoanhThuMouseClicked(evt);
+            }
+        });
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -221,8 +243,10 @@ public class TK extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Chi Tiết Doanh Thu");
+        tabDoanhThu.addTab("Bảng", jScrollPane1);
+
+        pnlBieuDo.setLayout(new java.awt.BorderLayout());
+        tabDoanhThu.addTab("Biểu Đồ", pnlBieuDo);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -232,10 +256,7 @@ public class TK extends javax.swing.JPanel {
                 .addContainerGap(401, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(350, 350, 350))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addComponent(tabDoanhThu)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,8 +264,7 @@ public class TK extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tabDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -273,7 +293,7 @@ public class TK extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Doanh Thu", jPanel3);
@@ -365,6 +385,13 @@ public class TK extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tabDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDoanhThuMouseClicked
+        // TODO add your handling code here:
+        if(tabDoanhThu.getSelectedIndex()==1){
+            testbarchar();
+        }
+    }//GEN-LAST:event_tabDoanhThuMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -392,5 +419,19 @@ public class TK extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JPanel pnlBieuDo;
+    private javax.swing.JTabbedPane tabDoanhThu;
     // End of variables declaration//GEN-END:variables
+    public void testbarchar(){
+        DefaultCategoryDataset dbSet  = new DefaultCategoryDataset();
+        dbSet.addValue(1000000, "Doanh Thu", "1");
+        dbSet.addValue(2000000, "Doanh Thu", "2");
+        dbSet.addValue(2300000, "Doanh Thu", "3");
+        dbSet.addValue(1700000, "Doanh Thu", "4");
+        JFreeChart Barchar = ChartFactory.createBarChart("Doanh thu theo nam", "Thang","Doanh Thu", dbSet,PlotOrientation.VERTICAL,false,false,false);
+        ChartPanel chartPanel = new ChartPanel(Barchar);
+        chartPanel.setPreferredSize(new java.awt.Dimension(100, 100));
+        pnlBieuDo.removeAll();
+        pnlBieuDo.add(chartPanel);
+    }
 }
