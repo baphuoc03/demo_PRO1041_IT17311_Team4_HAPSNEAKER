@@ -382,6 +382,8 @@ public class TK extends javax.swing.JPanel {
         if(cboLoaiTG.getItemCount()>0){
         if(cboLoaiTG.getSelectedIndex()==0){
             pnlTK_TheoNgay.removeAll();
+//            pnlTK_TheoNgay.generat;
+            pnlTK_TheoNgay.invalidate();
             pnlTK_TheoNgay.validate();
         }else{
             panel = new TK_TheoNgaychild();
