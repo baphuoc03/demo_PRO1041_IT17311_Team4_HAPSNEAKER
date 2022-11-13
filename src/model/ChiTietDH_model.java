@@ -55,6 +55,11 @@ public class ChiTietDH_model {
     public void setDonGia(float donGia) {
         this.donGia = donGia;
     }
+
+    @Override
+    public String toString() {
+        return "ChiTietDH_model{" + "donHang=" + donHang + ", thuocTinh=" + thuocTinh + ", sl=" + sl + ", donGia=" + donGia + '}';
+    }
     
     
 }

@@ -1,21 +1,40 @@
 package view;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import service.IChiTietDH_Service;
+import service.impl.DonHang_service;
+import service.IDonHang_service;
+import service.impl.ChiTietDH_Service;
+import viewmodel.ChiTietDH_View;
+import viewmodel.DonHang_view;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 /**
  *
  * @author phamtuananh
  */
-public class QLHoaDon extends javax.swing.JPanel {
+public class QLDonHang extends javax.swing.JPanel {
+
+    IDonHang_service DH_SV = new DonHang_service();
+    IChiTietDH_Service ChiTietDH = new ChiTietDH_Service();
+    DefaultTableModel mol;
+    List<DonHang_view> listDH;
+    List<ChiTietDH_View> listChiTietDH;
+    NumberFormat numberFM = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
     /**
      * Creates new form QLHoaDon
      */
-    public QLHoaDon() {
+    public QLDonHang() {
         initComponents();
+        fillTableDonHang();
     }
 
     /**
@@ -29,7 +48,7 @@ public class QLHoaDon extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDonHang = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -38,22 +57,20 @@ public class QLHoaDon extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblChiTietDH = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtTenDH = new javax.swing.JTextField();
+        txtSĐT = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtTienKhach = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lblThanhTien = new javax.swing.JLabel();
+        lblTienThua = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -64,12 +81,12 @@ public class QLHoaDon extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDonHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Mã Hóa Đơn", "Tên NV", "Tên KH", "Trạng Thái ", "Ngày Tạo"
+                "STT", "Mã Hóa Đơn", "Tên NV", "Tên KH", "Ngày Tạo", "Trạng Thái "
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -80,9 +97,14 @@ public class QLHoaDon extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tblDonHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDonHangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblDonHang);
 
-        jLabel1.setText("Danh Sách Hóa Đơn");
+        jLabel1.setText("Danh Sách Đơn Hàng");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,23 +178,23 @@ public class QLHoaDon extends javax.swing.JPanel {
 
         jLabel3.setText("Giỏ Hàng");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblChiTietDH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Mã SP", "Tên SP", "Số Lượng", "Đơn Giá", "Khuyến Mãi", "Thành Tiền", "Thành Tiền", ""
+                "STT", "Mã SP", "Tên SP", "Size", "Số Lượng", "Đơn Giá", "Thành Tiền", "Khuyến Mãi", "Tiền Sau Giảm"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, true, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblChiTietDH);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -205,9 +227,9 @@ public class QLHoaDon extends javax.swing.JPanel {
 
         jLabel5.setText("Tên KH:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtTenDH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtTenDHActionPerformed(evt);
             }
         });
 
@@ -215,17 +237,19 @@ public class QLHoaDon extends javax.swing.JPanel {
 
         jLabel7.setText("Tổng Tiền: ");
 
-        jLabel8.setText("Khách Cần Trả:");
+        txtTienKhach.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTienKhachKeyReleased(evt);
+            }
+        });
 
         jLabel9.setText("Tiền Khách Đưa:");
 
         jLabel10.setText("Tiền Thừa:");
 
-        jLabel11.setText("0");
+        lblThanhTien.setText("0");
 
-        jLabel12.setText("0");
-
-        jLabel13.setText("0");
+        lblTienThua.setText("0");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -242,20 +266,12 @@ public class QLHoaDon extends javax.swing.JPanel {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)))
+                                    .addComponent(txtSĐT, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(txtTenDH)))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7))
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel7)
+                                .addGap(37, 37, 37)
+                                .addComponent(lblThanhTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(19, 19, 19))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,12 +279,9 @@ public class QLHoaDon extends javax.swing.JPanel {
                             .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jTextField4)
-                                .addGap(23, 23, 23))))))
+                            .addComponent(txtTienKhach, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(lblTienThua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,27 +289,23 @@ public class QLHoaDon extends javax.swing.JPanel {
                 .addGap(13, 13, 13)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenDH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSĐT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel11))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel12))
-                .addGap(38, 38, 38)
+                    .addComponent(lblThanhTien))
+                .addGap(72, 72, 72)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTienKhach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel13))
+                    .addComponent(lblTienThua))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
@@ -390,9 +399,27 @@ public class QLHoaDon extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtTenDHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDHActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtTenDHActionPerformed
+
+    private void tblDonHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDonHangMouseClicked
+        // TODO add your handling code here:
+        int index = tblDonHang.getSelectedRow();
+        showDonHang(DH_SV.getAllDonHang().get(index));
+        lblTienThua.setText(numberFM.format(0));
+    }//GEN-LAST:event_tblDonHangMouseClicked
+
+    private void txtTienKhachKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienKhachKeyReleased
+        // TODO add your handling code here:
+        if (txtTienKhach.getText().length() == 0) {
+            lblTienThua.setText(numberFM.format(0));
+        } else {
+            float tienThua = Float.parseFloat(txtTienKhach.getText()) - getThanhTien();
+            lblTienThua.setText(numberFM.format(tienThua));
+        }
+        
+    }//GEN-LAST:event_txtTienKhachKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -401,16 +428,12 @@ public class QLHoaDon extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -421,11 +444,45 @@ public class QLHoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblThanhTien;
+    private javax.swing.JLabel lblTienThua;
+    private javax.swing.JTable tblChiTietDH;
+    private javax.swing.JTable tblDonHang;
+    private javax.swing.JTextField txtSĐT;
+    private javax.swing.JTextField txtTenDH;
+    private javax.swing.JTextField txtTienKhach;
     // End of variables declaration//GEN-END:variables
+    public void fillTableDonHang() {
+        listDH = DH_SV.getAllDonHang();
+        mol = (DefaultTableModel) tblDonHang.getModel();
+        mol.setRowCount(0);
+        for (DonHang_view d : listDH) {
+            mol.addRow(new Object[]{d.getStt(), d.getMaHD(), d.getTenNV(), d.getTenKH(), d.getNgayTao(), d.getTrangThai()});
+        }
+    }
+
+    public void showDonHang(DonHang_view dh) {
+        filltableChiTietDH(dh.getMaHD());
+    }
+
+    public void filltableChiTietDH(String maHD) {
+        listChiTietDH = ChiTietDH.getChiTietDHByMaDH(maHD);
+        mol = (DefaultTableModel) tblChiTietDH.getModel();
+        mol.setRowCount(0);
+        for (ChiTietDH_View c : listChiTietDH) {
+            mol.addRow(new Object[]{
+                c.getStt(), c.getMaSP(), c.getTenSP(), c.getSize(), c.getSL(), c.getDonGia(), c.getThanhTien(), c.getKhuyenMai(), c.getTienSauGiam()
+            });
+        }
+        lblThanhTien.setText(numberFM.format(getThanhTien()));
+    }
+
+    public float getThanhTien() {
+        float tt = 0;
+        for (int i = 0; i < tblChiTietDH.getRowCount(); i++) {
+            tt += Float.parseFloat(tblChiTietDH.getValueAt(i, 8).toString());
+        }
+        return tt;
+    }
 }

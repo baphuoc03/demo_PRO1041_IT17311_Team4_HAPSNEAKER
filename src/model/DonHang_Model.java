@@ -67,5 +67,10 @@ public class DonHang_Model {
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
+
+    @Override
+    public String toString() {
+        return "DonHang_Model{" + "ma=" + ma + ", nhanVien=" + nhanVien + ", khachHang=" + khachHang + ", ngayTao=" + ngayTao + ", trangThai=" + trangThai + '}';
+    }
     
 }
