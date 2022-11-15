@@ -1,9 +1,15 @@
 package view;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import service.IChiTietDH_Service;
 import service.impl.DonHang_service;
@@ -317,6 +323,11 @@ public class QLDonHang extends javax.swing.JPanel {
         jButton2.setText("Hủy");
 
         jButton3.setText("Tạo Hóa Đơn");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -412,14 +423,27 @@ public class QLDonHang extends javax.swing.JPanel {
 
     private void txtTienKhachKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienKhachKeyReleased
         // TODO add your handling code here:
+
         if (txtTienKhach.getText().length() == 0) {
             lblTienThua.setText(numberFM.format(0));
         } else {
-            float tienThua = Float.parseFloat(txtTienKhach.getText()) - getThanhTien();
-            lblTienThua.setText(numberFM.format(tienThua));
+            try {
+                float tienThua = Float.parseFloat(txtTienKhach.getText()) - getThanhTien();
+                lblTienThua.setText(numberFM.format(tienThua));
+            } catch (Exception e) {
+                lblTienThua.setText("...");
+            }
+
         }
-        
+
+
     }//GEN-LAST:event_txtTienKhachKeyReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        txtTenDH.setText(getDateNow());
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -484,5 +508,11 @@ public class QLDonHang extends javax.swing.JPanel {
             tt += Float.parseFloat(tblChiTietDH.getValueAt(i, 8).toString());
         }
         return tt;
+    }
+
+    public String getDateNow() {
+        SimpleDateFormat DateFM = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return DateFM.format(date);
     }
 }
