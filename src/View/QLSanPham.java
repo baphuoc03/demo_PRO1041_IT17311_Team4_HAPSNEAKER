@@ -7,6 +7,16 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import viewmodel.ThuocTinhSP_ViewModel;
+import model.ThuocTinhSP_Model;
+import service.IThuocTinhSP_Service;
+import service.impl.ThuocTinhSP_service;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import service.ISanPham_Service;
+import service.impl.SanPham_service;
+import  viewmodel.SanPham_ViewModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,14 +28,37 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @author 84353
  */
 public class QLSanPham extends javax.swing.JPanel {
-    
+    IThuocTinhSP_Service TTS = new ThuocTinhSP_service();
+    DefaultTableModel dtm ;
+    List<ThuocTinhSP_ViewModel> lstTT;
+    List<SanPham_ViewModel> lstSP;
+    ISanPham_Service SPS = new SanPham_service();
     /**
      * Creates new form QLThuongHieu
      */
     public QLSanPham() {
         initComponents();
+        FillSanPham();
+        FillThuocTinh();
     }
 
+    public void FillThuocTinh(){
+        lstTT = TTS.GetAllThuocTinhSP();
+        dtm = (DefaultTableModel) tblPhanLoai.getModel();
+        dtm.setRowCount(0);
+        for(ThuocTinhSP_ViewModel t : lstTT){
+            dtm.addRow(new Object[]{t.getStt(),t.getId(),t.getMaSP(),t.getMaKT(),t.getsL()});
+        }
+    }
+    
+    public void FillSanPham(){
+        lstSP = SPS.GetAllSanPham();
+        dtm = (DefaultTableModel) tblBangSP.getModel();
+        dtm.setRowCount(0);
+        for(SanPham_ViewModel s : lstSP){
+            dtm.addRow(new Object[]{s.getStt(),s.getMa(),s.getTen(),s.getThuongHieu(),s.getMauSac(),s.getGiaNhap(),s.getMoTa(),s.getGiaBan(),s.getTrangThai()==1?"Hiển thị":"Ẩn"});
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +76,7 @@ public class QLSanPham extends javax.swing.JPanel {
         txtTk = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblBangSP = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,7 +110,7 @@ public class QLSanPham extends javax.swing.JPanel {
         jTextField4 = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblPhanLoai = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -132,7 +165,7 @@ public class QLSanPham extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblBangSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -143,7 +176,7 @@ public class QLSanPham extends javax.swing.JPanel {
                 "STT", "Mã SP", "Tên SP", "Mã TH", "Mã màu", "Giá nhập", "Giá bán", "SL Tồn", "Trạng thái"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblBangSP);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -422,7 +455,7 @@ public class QLSanPham extends javax.swing.JPanel {
 
         jButton9.setText("Tìm Kiếm");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblPhanLoai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -433,7 +466,7 @@ public class QLSanPham extends javax.swing.JPanel {
                 "STT", "ID", "Mã SP", "Mã Size", "Số lượng"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblPhanLoai);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -689,9 +722,7 @@ public class QLSanPham extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -699,6 +730,8 @@ public class QLSanPham extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable tblBangSP;
+    private javax.swing.JTable tblPhanLoai;
     private javax.swing.JTextField txtTk;
     // End of variables declaration//GEN-END:variables
 }
